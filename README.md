@@ -1,12 +1,12 @@
-# Xi::MidiStream
+# Xi::MIDI
 
 MIDI support for Xi
 
 ## Installation
 
-    $ gem install xi-midi_stream
+    $ gem install xi-midi
 
-TODO: Configure Xi to require MIDIStream automatically
+TODO: Configure Xi to require this MIDI extension automatically
 
 ## Usage
 
@@ -26,7 +26,7 @@ git commits and tags, and push the `.gem` file to
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at
-https://github.com/munshkr/xi-midi_stream. This project is intended to be a
+https://github.com/munshkr/xi-midi. This project is intended to be a
 safe, welcoming space for collaboration, and contributors are expected to
 adhere to the [Contributor Covenant](http://contributor-covenant.org) code of
 conduct.

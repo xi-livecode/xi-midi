@@ -1,5 +1,5 @@
 module Xi
-  module MidiStream
+  module MIDI
     VERSION = "0.1.0"
   end
 end
