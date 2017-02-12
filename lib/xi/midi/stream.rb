@@ -16,6 +16,11 @@ module Xi::MIDI
       at_exit { kill_playing_notes }
     end
 
+    def set(**params)
+      params[:gate] = :midinote
+      super(params)
+    end
+
     def stop
       kill_playing_notes
       super
