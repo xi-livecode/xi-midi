@@ -64,6 +64,19 @@ module Xi::MIDI
       end
     end
 
+    def do_state_change
+      logger.info changed_state
+      changed_state.each do |p, v|
+        cc_id = cc_parameters[p]
+        midi.cc(@device, channel, cc_id, v) if cc_id
+      end
+    end
+
+    # @override
+    def cc_parameters
+      {}
+    end
+
     def midi
       Proxy.instance
     end
