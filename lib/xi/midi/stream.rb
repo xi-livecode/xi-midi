@@ -35,7 +35,7 @@ module Xi::MIDI
       @playing_notes.clear
     end
 
-    def do_gate_on(so_ids)
+    def do_gate_on_change(so_ids)
       channel = Array(@state[:channel] || 0)
       midinote = Array(@state[:midinote] || 60)
       velocity = Array(@state[:velocity] || 127)
@@ -48,13 +48,11 @@ module Xi::MIDI
         logger.info "MIDI Note on: #{[channel_i, midinote_i, velocity_i]}"
         midi.note_on(@device, channel_i, midinote_i, velocity_i)
 
-        @playing_notes[so_id] = {channel:  channel_i, midinote: midinote_i}
+        @playing_notes[so_id] = {channel: channel_i, midinote: midinote_i}
       end
-
-      logger.info "@playing_notes = #{@playing_notes}"
     end
 
-    def do_gate_off(so_ids)
+    def do_gate_off_change(so_ids)
       so_ids.each do |so_id|
         note = @playing_notes.delete(so_id)
         if note
@@ -62,8 +60,6 @@ module Xi::MIDI
           midi.note_off(@device, note[:channel], note[:midinote])
         end
       end
-
-      logger.info "@playing_notes = #{@playing_notes}"
     end
 
     def midi
