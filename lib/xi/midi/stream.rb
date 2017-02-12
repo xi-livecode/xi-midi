@@ -29,10 +29,12 @@ module Xi::MIDI
     private
 
     def kill_playing_notes
-      @playing_notes.each do |_, note|
-        midi.note_off(@device, note[:channel], note[:midinote])
+      @mutex.synchronize do
+        @playing_notes.each do |_, note|
+          midi.note_off(@device, note[:channel], note[:midinote])
+        end
+        @playing_notes.clear
       end
-      @playing_notes.clear
     end
 
     def do_gate_on_change(so_ids)
