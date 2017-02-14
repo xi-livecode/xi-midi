@@ -17,8 +17,7 @@ module Xi::MIDI
     end
 
     def set(**params)
-      params[:gate] = :midinote
-      super(params)
+      super(gate: :midinote, **params)
     end
 
     def stop
@@ -37,35 +36,44 @@ module Xi::MIDI
       end
     end
 
-    def do_gate_on_change(so_ids)
+    def do_gate_on_change(changes)
+      logger.debug "Gate on change: #{changes}"
+
       channel = Array(@state[:channel] || 0)
       midinote = Array(@state[:midinote] || 60)
       velocity = Array(@state[:velocity] || 127)
 
-      so_ids.each.with_index do |so_id, i|
-        channel_i = channel[i % channel.size]
-        midinote_i = midinote[i % midinote.size]
-        velocity_i = velocity[i % velocity.size]
+      changes.each do |change|
+        change.fetch(:so_ids).each.with_index do |so_id, i|
+          channel_i = channel[i % channel.size]
+          midinote_i = midinote[i % midinote.size]
+          velocity_i = velocity[i % velocity.size]
 
-        logger.info "MIDI Note on: #{[channel_i, midinote_i, velocity_i]}"
-        midi.note_on(@device, channel_i, midinote_i, velocity_i)
+          logger.info "MIDI Note on: #{[channel_i, midinote_i, velocity_i]}"
+          midi.note_on(@device, channel_i, midinote_i, velocity_i)
 
-        @playing_notes[so_id] = {channel: channel_i, midinote: midinote_i}
+          @playing_notes[so_id] = {channel: channel_i, midinote: midinote_i}
+        end
       end
     end
 
-    def do_gate_off_change(so_ids)
-      so_ids.each do |so_id|
-        note = @playing_notes.delete(so_id)
-        if note
-          logger.info "MIDI Note off: #{[note[:channel], note[:midinote]]}"
-          midi.note_off(@device, note[:channel], note[:midinote])
+    def do_gate_off_change(changes)
+      logger.debug "Gate off change: #{changes}"
+
+      changes.each do |change|
+        change.fetch(:so_ids).each do |so_id|
+          note = @playing_notes.delete(so_id)
+          if note
+            logger.info "MIDI Note off: #{[note[:channel], note[:midinote]]}"
+            midi.note_off(@device, note[:channel], note[:midinote])
+          end
         end
       end
     end
 
     def do_state_change
-      logger.info changed_state
+      logger.debug "State change: #{changed_state}"
+
       changed_state.each do |p, v|
         cc_id = cc_parameters[p]
         midi.cc(@device, channel, cc_id, v) if cc_id
@@ -79,6 +87,10 @@ module Xi::MIDI
 
     def midi
       Proxy.instance
+    end
+
+    def latency_sec
+      0.01
     end
   end
 end
