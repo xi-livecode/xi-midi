@@ -12,7 +12,7 @@ module Xi::MIDI
       @channel = channel
       @playing_notes = {}
 
-      midi.open(device)
+      midi.open(device) unless midi.open?(device)
       at_exit { kill_playing_notes }
     end
 
