@@ -5,8 +5,8 @@ module Xi::MIDI
   class Stream < ::Stream
     attr_accessor :device, :channel
 
-    def initialize(clock, device: 0, channel: 0)
-      super(clock)
+    def initialize(name, clock, device: 0, channel: 0)
+      super(name, clock)
 
       @device = device
       @channel = channel
