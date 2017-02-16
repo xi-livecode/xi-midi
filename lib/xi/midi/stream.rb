@@ -2,7 +2,7 @@ require 'xi/stream'
 require 'xi/midi/proxy'
 
 module Xi::MIDI
-  class Stream < ::Stream
+  class Stream < Xi::Stream
     attr_accessor :device, :channel
 
     def initialize(name, clock, device: 0, channel: 0)
