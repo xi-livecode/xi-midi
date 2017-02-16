@@ -5,4 +5,6 @@ module Xi
   module MIDI
     # Your code goes here...
   end
+
+  Midi = MIDI
 end
