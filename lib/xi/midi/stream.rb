@@ -76,7 +76,7 @@ module Xi::MIDI
 
       changed_state.each do |p, vs|
         cc_id = cc_parameters[p]
-        vs.each { |v| midi.cc(@device, channel, cc_id, v.to_i) } if cc_id
+        Array(vs).each { |v| midi.cc(@device, channel, cc_id, v.to_i) } if cc_id
       end
     end
 
