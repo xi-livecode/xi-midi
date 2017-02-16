@@ -74,9 +74,9 @@ module Xi::MIDI
     def do_state_change
       logger.debug "State change: #{changed_state}"
 
-      changed_state.each do |p, v|
+      changed_state.each do |p, vs|
         cc_id = cc_parameters[p]
-        midi.cc(@device, channel, cc_id, v) if cc_id
+        vs.each { |v| midi.cc(@device, channel, cc_id, v.to_i) } if cc_id
       end
     end
 
