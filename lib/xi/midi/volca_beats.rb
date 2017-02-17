@@ -40,11 +40,12 @@ module Xi::MIDI
       CC
     end
 
-    def reduce_to_midinote
+    def transform_state
+      super
+
       if !changed_param?(:midinote) && changed_param?(:drum)
-        Array(@state[:drum]).map { |n| DRUMS[n.to_sym] }.compact
-      else
-        super
+        @state[:midinote] = Array(@state[:drum]).map { |n| DRUMS[n.to_sym] }.compact
+        @changed_params << :midinote
       end
     end
   end
