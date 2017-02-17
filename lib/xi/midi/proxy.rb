@@ -73,13 +73,8 @@ module Xi::MIDI
     def send_bytes(device, *bytes)
       return unless open?(device)
 
-      logger.debug([:send_bytes, device, bytes].join(', '))
+      debug(:send_bytes, device, bytes)
       @mutex.synchronize { @outputs[device].write(bytes) }
-    end
-
-    def logger
-      # FIXME this should be configurable
-      @logger ||= Logger.new("/tmp/xi.log")
     end
   end
 end

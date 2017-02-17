@@ -37,7 +37,7 @@ module Xi::MIDI
     end
 
     def do_gate_on_change(changes)
-      logger.debug "Gate on change: #{changes}"
+      debug "Gate on change: #{changes}"
 
       channel = Array(@state[:channel] || 0)
       midinote = Array(@state[:midinote] || 60)
@@ -49,7 +49,7 @@ module Xi::MIDI
           midinote_i = midinote[i % midinote.size]
           velocity_i = velocity[i % velocity.size]
 
-          logger.info "MIDI Note on: #{[channel_i, midinote_i, velocity_i]}"
+          debug "MIDI Note on: #{[channel_i, midinote_i, velocity_i]}"
           midi.note_on(@device, channel_i, midinote_i, velocity_i)
 
           @playing_notes[so_id] = {channel: channel_i, midinote: midinote_i}
@@ -58,13 +58,13 @@ module Xi::MIDI
     end
 
     def do_gate_off_change(changes)
-      logger.debug "Gate off change: #{changes}"
+      debug "Gate off change: #{changes}"
 
       changes.each do |change|
         change.fetch(:so_ids).each do |so_id|
           note = @playing_notes.delete(so_id)
           if note
-            logger.info "MIDI Note off: #{[note[:channel], note[:midinote]]}"
+            debug "MIDI Note off: #{[note[:channel], note[:midinote]]}"
             midi.note_off(@device, note[:channel], note[:midinote])
           end
         end
@@ -72,7 +72,7 @@ module Xi::MIDI
     end
 
     def do_state_change
-      logger.debug "State change: #{changed_state}"
+      debug "State change: #{changed_state}"
 
       changed_state.each do |p, vs|
         cc_id = cc_parameters[p]
