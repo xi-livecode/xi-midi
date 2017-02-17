@@ -75,7 +75,12 @@ module Xi::MIDI
       debug "State change: #{changed_state}"
 
       changed_state.each do |p, vs|
-        cc_id = cc_parameters[p]
+        cc_id = if p.to_s.start_with?('cc_')
+          p.to_s.split('_')[1].to_i
+        else
+          cc_parameters[p]
+        end
+
         Array(vs).each { |v| midi.cc(@device, channel, cc_id, v.to_i) } if cc_id
       end
     end
