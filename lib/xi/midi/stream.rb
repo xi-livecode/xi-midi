@@ -6,7 +6,7 @@ module Xi::MIDI
     attr_accessor :device, :channel
 
     def initialize(name, clock, device: 0, channel: 0)
-      super(name, clock)
+      super
 
       @device = device
       @channel = channel
