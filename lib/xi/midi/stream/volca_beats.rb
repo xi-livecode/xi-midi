@@ -1,4 +1,4 @@
-module Xi::MIDI
+class Xi::MIDI::Stream
   module VolcaBeats
     CC = {
       lKick: 40,

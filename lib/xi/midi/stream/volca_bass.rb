@@ -1,4 +1,4 @@
-module Xi::MIDI
+class Xi::MIDI::Stream
   module VolcaBass
     CC = {
       slide: 5,

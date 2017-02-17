@@ -1,4 +1,4 @@
-module Xi::MIDI
+class Xi::MIDI::Stream
   module VolcaKeys
     CC = {
       portamento: 5,
