@@ -1,4 +1,4 @@
-# Xi::MIDI
+# Xi::MIDI  [![Build Status](https://travis-ci.org/xi-livecode/xi-midi.svg?branch=master)](https://travis-ci.org/xi-livecode/xi-midi)
 
 MIDI support for Xi
 
