@@ -95,7 +95,7 @@ module Xi::MIDI
     end
 
     def latency_sec
-      0.01
+      0.04
     end
   end
 end
